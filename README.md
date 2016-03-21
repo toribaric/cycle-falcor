@@ -14,20 +14,20 @@ A simple example of fetching and displaying data from ['items', 'latest'] path t
 {
     "json": {
         "items": {
-            "__path": ["items"],
+            "$__path": ["items"],
             "latest": {
-                "__path": ["items", "latest"],
+                "$__path": ["items", "latest"],
                 "0": {
                     "name": "Item 1",
                     "description": "Description of item 1",
                     "price": 450,
-                    "__path": ["item", "latest", 0]
+                    "$__path": ["item", "latest", 0]
                 },
                 "1": {
                     "name": "Item 2",
                     "description": "Description of item 2",
                     "price": 220,
-                    "__path": ["item", "latest", 1]
+                    "$__path": ["item", "latest", 1]
                 }
             }
         }
