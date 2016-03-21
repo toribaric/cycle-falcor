@@ -37,6 +37,7 @@ A simple example of fetching and displaying data from ['items', 'latest'] path t
 
 ```js
 import Cycle from '@cycle/core';
+import {Observable} from 'rx';
 import {makeDOMDriver, div} from '@cycle/dom';
 import {makeFalcorDriver} from 'cycle-falcor';
 
