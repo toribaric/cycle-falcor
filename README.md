@@ -63,7 +63,7 @@ function main(sources) {
             items.map(item => {
                 div('.item', item.name),
                 div('.item', item.description),
-                div('.item', item.description)
+                div('.item', item.price)
             })
         ])
     });
