@@ -61,9 +61,11 @@ function main(sources) {
      const vtree$ = state$.map(items => {
         return div('.items', [
             items.map(item => {
-                div('.item', item.name),
-                div('.item', item.description),
-                div('.item', item.price)
+                return div('.row', [
+                    div('.column', item.name),
+                    div('.column', item.description),
+                    div('.column', item.price)
+                ])
             })
         ])
     });
