@@ -29,6 +29,14 @@ exports.
  * - `resKey` *(String)*: optional key in which the response will be wrapped
  * - `invalidatePath` *(Array)*: array with path to invalidate upon received
  * response from provided path
+ * - `eager` *(Boolean)*: by default, response$ observables are lazy - setting
+ * this option to true would set them to be eager with replay. Setting the response
+ * observable to eager is useful for cases when multiple downstream observable
+ * sequences subscribe to the response$$ metastream, because then they'd all
+ * share the same subscription with the underlying response$ observables.
+ * Example use case is subscribing to response$$ with a sequence that will use
+ * the items of one of response$ observables to assemble a new request$ observable
+ * that will be merged to driver's request$ observable.
  *
  * **Responses**. A metastream is an Observable of Observables. The response
  * metastream emits Observables of responses. These Observables of responses
