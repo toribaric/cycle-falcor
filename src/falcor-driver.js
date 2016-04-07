@@ -1,38 +1,39 @@
 import {Observable} from 'rx';
-import model from './model'
+import model from './model';
 
 function createResponse$(request) {
     return Observable.create(observer => {
         if (typeof request.method !== 'string' || typeof request.path.slice !== 'function') {
-            observer.onNext(request);
-            observer.onCompleted();
-        } else {
-            try {
-                model[request.method](request.path).then(
-                    res => {
-                        if (request.invalidatePath) {
-                            model.invalidate(request.invalidatePath);
-                        }
-
-                        if (request.resKey) {
-                            observer.onNext({
-                                [request.resKey]: res
-                            });
-                        } else {
-                            observer.onNext(res);
-                        }
-
-                        observer.onCompleted();
-                    },
-                    error => {
-                        observer.onError(error)
-                    }
-                );
-            } catch (error) {
-                observer.onError(error)
-            }
+            throw new Error('Observable of requests passed to Falcor Driver must emit ' +
+                'objects with `method` as string and `path` as array parameters.');
         }
-    })
+
+        try {
+            model[request.method](request.path).then(
+                res => {
+                    if (request.invalidatePath) {
+                        model.invalidate(request.invalidatePath);
+                    }
+
+                    if (request.resKey) {
+                        observer.onNext({
+                            [request.resKey]: res
+                        });
+                    } else {
+                        observer.onNext(res);
+                    }
+
+                    observer.onCompleted();
+                },
+
+                error => {
+                    observer.onError(error);
+                }
+            );
+        } catch (error) {
+            observer.onError(error);
+        }
+    });
 }
 
 function isolateSink(request$, scope) {
@@ -40,7 +41,7 @@ function isolateSink(request$, scope) {
         request._namespace = request._namespace || [];
         request._namespace.push(scope);
         return request;
-    })
+    });
 }
 
 function isolateSource(response$$, scope) {
@@ -75,7 +76,7 @@ function makeFalcorDriver() {
         response$$.isolateSink = isolateSink;
 
         return response$$;
-    }
+    };
 }
 
 export default makeFalcorDriver;

@@ -17,28 +17,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 function createResponse$(request) {
     return _rx.Observable.create(function (observer) {
         if (typeof request.method !== 'string' || typeof request.path.slice !== 'function') {
-            observer.onNext(request);
-            observer.onCompleted();
-        } else {
-            try {
-                _model2.default[request.method](request.path).then(function (res) {
-                    if (request.invalidatePath) {
-                        _model2.default.invalidate(request.invalidatePath);
-                    }
+            throw new Error('Observable of requests passed to Falcor Driver must emit ' + 'objects with `method` as string and `path` as array parameters.');
+        }
 
-                    if (request.resKey) {
-                        observer.onNext(_defineProperty({}, request.resKey, res));
-                    } else {
-                        observer.onNext(res);
-                    }
+        try {
+            _model2.default[request.method](request.path).then(function (res) {
+                if (request.invalidatePath) {
+                    _model2.default.invalidate(request.invalidatePath);
+                }
 
-                    observer.onCompleted();
-                }, function (error) {
-                    observer.onError(error);
-                });
-            } catch (error) {
+                if (request.resKey) {
+                    observer.onNext(_defineProperty({}, request.resKey, res));
+                } else {
+                    observer.onNext(res);
+                }
+
+                observer.onCompleted();
+            }, function (error) {
                 observer.onError(error);
-            }
+            });
+        } catch (error) {
+            observer.onError(error);
         }
     });
 }

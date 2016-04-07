@@ -44,6 +44,10 @@ exports.
  * indicating which request (from the driver input) generated this response
  * Observable. The response Observables themselves emit the response object
  * received by invoking the provided falcor model method with the provided path.
+ * There're two reasons the driver is emitting a metastream and not flattening
+ * the response$ observables right away: 1) isolation (response filtering by
+ * scope), 2) attaching metadata to response$ observables - like which request
+ * generated the response
  *
  * @param {Object} options an object with method and path
  * @return {Function} the Falcor Driver function
