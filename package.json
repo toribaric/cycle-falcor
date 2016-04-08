@@ -1,6 +1,6 @@
 {
   "name": "cycle-falcor",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Cycle.js driver for Netflix Falcor",
   "main": "dist/index.js",
   "scripts": {
