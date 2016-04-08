@@ -156,7 +156,9 @@ function main(sources) {
         .events('input')
         .debounce(200)
         .map(ev => ev.target.value)
-        .startWith('');
+        .startWith('')
+        .replay(null, 1)
+        .refCount();
 
     const request$ = makeRequest(intent$, sources.Falcor);
 
